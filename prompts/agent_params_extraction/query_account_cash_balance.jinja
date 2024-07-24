@@ -1,0 +1,19 @@
+{% extends "params_base.jinja" %}
+{% block api_params %}
+{
+    "currency": {
+        "type": "enum: ["HKD", "USD"]",
+        "required": false,
+        "description": "currency（货币）, HKD : 港币, USD : 美元",
+        "example": ""
+    },
+}
+### example 1:
+    conversation history: []
+    customer_input: 'Check the balance in United States dollars'
+    your response should be {"currency":'USD'}
+### example 2:
+    conversation history: []
+    customer_input: 'Check my HKD balance.'
+    your response should be {"currency":'HKD'}
+{% endblock %}

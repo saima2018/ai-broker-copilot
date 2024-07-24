@@ -1,0 +1,50 @@
+{% extends "params_base.jinja" %}
+{% block api_params %}
+{
+    "symbol": {
+        "type": "string",
+        "required": false,
+        "description": "Stock Symbol (format: ticker.region)",
+        "example": "AAPL.US"
+    },
+    "status": {
+        "type": "enum: ["NotReported", "ReplacedNotReported","ProtectedNotReported","VarietiesNotReported","FilledStatus","WaitToNew","NewStatus","WaitToReplace","PendingReplaceStatus","ReplacedStatus","PartialFilledStatus","WaitToCancel","PendingCancelStatus","RejectedStatus","CanceledStatus","ExpiredStatus","PartialWithdrawal"]",
+        "required": false,
+        "description": "Order Status (订单状态), NotReported : 待提交, ReplacedNotReported : 待提交 (改单成功), ProtectedNotReported : 待提交 (保价订单), VarietiesNotReported : 待提交 (条件单), FilledStatus : 已成交,WaitToNew : 已提待报, NewStatus : 已委托, WaitToReplace : 修改待报, PendingReplaceStatus : 待修改, ReplacedStatus : 已修改, PartialFilledStatus : 部分成交, WaitToCancel : 撤销待报, PendingCancelStatus : 待撤回, RejectedStatus : 已拒绝, CanceledStatus : 已撤单, ExpiredStatus : 已过期, PartialWithdrawal : 部分撤单",
+        "example": "status=FilledStatus&status=NewStatus"
+    },
+    "side": {
+        "type": "enum: ["Buy", "Sell"]",
+        "required": false,
+        "description": "Side (买卖方向)",
+        "example": "Buy"
+    },
+    "market": {
+        "type": "enum: ["US","HK","SG","SH","SZ","HAS","OSL"]",
+        "required": false,
+        "description": "Market (市场)",
+        "example": "AAPL.US"
+    },
+    "start_at": {
+        "type": "string",
+        "required": false,
+        "description": "Start Time format yyyy-mm-dd",
+        "example": "2024-06-12"
+    },
+    "end_at": {
+        "type": "string",
+        "required": false,
+        "description": "End Time format yyyy-mm-dd",
+        "example": "2024-09-12"
+    }
+}
+### API notes: no.### example 1:
+    conversation history: []
+    customer input: 'show me buy orders for HK market before June 25, 2023',
+    your response should be {"end_at": "2023-06-25", "market": "HK", "side": "Buy", "follow_up_question": ""}
+### example 2:
+    conversation history: []
+    customer input: 'Help me check my order history between September 25 and 30, 2022.',
+    your response should be {"start_at":"2022-09-25", "end_at": "2022-09-30",  "follow_up_question": ""}
+
+{% endblock %}

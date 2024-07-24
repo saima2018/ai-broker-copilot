@@ -1,0 +1,26 @@
+{% extends "params_base.jinja" %}
+{% block api_params %}
+{
+  "symbol": {
+    "type": "string",
+    "required": true,
+    "description": "Stock Symbol (format: ticker.region)",
+    "example": "AAPL.US"
+  },
+  "currency": {
+    "type": "string | None",
+    "required": false,
+    "description": "whether to only consider a specific currency",
+    "example": "HKD"
+  },
+}
+### API notes: once you have the symbol parameter, you can calculate, because you already have the account balance data.
+### example 1:
+    conversation history: []
+    customer input: 'how many tencent stocks can I afford?',
+    your response should be {"symbol":"tencent", "follow_up_question": ""}\
+### example 2:
+    conversation history: []
+    customer input: 'how many tencent stocks can I buy with my US dollars?',
+    your response should be {"symbol":"tencent", "currency":"USD", "follow_up_question": ""}\
+{% endblock %}

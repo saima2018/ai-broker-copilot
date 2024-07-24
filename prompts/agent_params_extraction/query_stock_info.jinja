@@ -1,0 +1,12 @@
+{% extends "params_base.jinja" %}
+{% block api_params %}
+{
+    "symbol": {
+        "type": "string",
+        "required": true,
+        "description": "Stock Symbol (format: ticker.region)",
+        "example": "09899.HK"
+    },
+}
+### API notes: no.
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "params_base.jinja" %}
+{% block api_params %}
+{
+  "symbol": {
+    "type": "string",
+    "required": true,
+    "description": "Stock Symbol (format: ticker.region)",
+    "example": "AAPL.US"
+  },
+  "side": {
+    "type": "enum: ["Buy", "Sell"]",
+    "required": true,
+    "description": "Side (买卖方向)",
+    "example": "Sell"
+  },
+  "order_type": {
+    "type": "enum: ["LO", "MO", "ELO", "AO", "ALO", "ODD"]",
+    "required": true,
+    "description": "Order Type, LO: Limit Order (限价单), ELO: Enhanced Limit Order (增强限价单), MO: Market Order (市价单), AO: At-auction Market Order (竞价市价单), ALO: At-auction Limit Order (竞价限价单), ODD: Odd Lot Order (碎股单挂单), LIT: Limit if Touch (触价限价单), MIT: Market if Touch (触价市价单)",
+  },
+  "submitted_price": {
+    "type": "string",
+    "required": false,
+    "description": "Submitted Price (下单价格)",
+    "example": "88.5"
+  },
+  "submitted_quantity": {
+    "type": "string",
+    "required": true,
+    "description": "Submitted Quantity (下单数量)",
+    "example": "100"
+  },
+  "time_in_force": {
+    "type": "Enum: ["Day", "GTC", "GTD"]",
+    "required": true,
+    "description": "Time in Force, means order validity period. Day: valid for the day. GTC: Good-Till-Cancelled. GTD: Good-Till-Date.",
+  },
+  "expire_date": {
+    "type": "string",
+    "required": false,
+    "description": "Long-term Order Expiration Time (长期单过期时间，格式为 YYYY-MM-DD)",
+    "example": "2022-12-05"
+  },
+  "outside_rth": {
+    "type": "string",
+    "required": false,
+    "description": "Outside Regular Trading Hour (是否允许盘前盘后，美股必填)",
+    "example": ""
+  },
+  "trigger_price": {
+    "type": "string",
+    "required": false,
+    "description": "Trigger Price (触发价格)",
+    "example": "388.5"
+  },
+  "tailing_amount": {
+    "type": "string",
+    "required": false,
+    "description": "Trailing Amount (跟踪金额)",
+    "example": ""
+  },
+  "tailing_percent": {
+    "type": "string",
+    "required": false,
+    "description": "Trailing Percent (跟踪涨跌幅 %)",
+    "example": ""
+  },
+  "limit_offset": {
+    "type": "string",
+    "required": false,
+    "description": "Order Target Price Spread (指定价差)",
+    "example": ""
+  }
+}
+### API notes: 1. submitted_price is required for LO, but not MO.
+                2. default time_in_force is 'Day' for order_type MO.
+### example 1:
+    conversation history: []
+    customer input: 'buy 100 AAPL.US at 20.',
+    your response should be {"symbol":"AAPL.US", "side":"Buy", "submitted_price":"20", "submitted_quantity":"100", "order_type": "LO", "time_in_force":"GTC", "follow_up_question": ""}\
+### example 2:
+    conversation history: [{'Customer': 'Morning'}, {'You': 'Morning! How can I help you today?'}]
+    customer input: 'sell 50 shares of my apple stocks.'
+    your response should be {"symbol":"apple", "side":"Sell", "submitted_quantity":"50", "order_type": "MO", "time_in_force":"GTC", "follow_up_question": ""}\
+### example 3:
+    conversation history: [{'Customer': 'Morning'}, {'You': 'Morning! How can I help you today?'}{'Customer': 'sell 50 shares of my AAPL.US.'}, {'You': 'At what price?'}]
+    customer input: 'current market price'
+    your response should be {"symbol":"AAPL.US", "side":"Sell", "submitted_quantity":"50", "order_type": "MO", "time_in_force":"GTC", "follow_up_question": ""}\
+{% endblock %}
